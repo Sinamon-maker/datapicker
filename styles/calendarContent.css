@@ -1,0 +1,57 @@
+.calendar__content {
+  position: absolute;
+  top: 45px;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  background-color: white;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  z-index: 100;
+  transition: all 0.3s ease-out;
+  padding: 0.5rem;
+  border: 1px solid tomato;
+}
+
+.calendar__days-content {
+  background-color: white;
+}
+
+.calendar__day-btn {
+  cursor: pointer;
+  border: none;
+  width: 14.2857%;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  background-color: white;
+}
+
+.calendar__day-btn:not(:disabled, :focus):hover {
+  background-color: blanchedalmond;
+}
+
+.calendar__day-btn-choosed {
+  background-color: rgb(150, 35, 146);
+  position: relative;
+
+  z-index: 2;
+}
+.calendar__day-btn-current {
+  font-weight: 900;
+  text-decoration: underline;
+}
+.calendar__day-btn-between {
+  background-color: rgb(228, 146, 208);
+  border-radius: 0;
+}
+
+.calendar__day-btn-double-right {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.calendar__day-btn-double-left {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}

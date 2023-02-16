@@ -1,0 +1,47 @@
+.calendar__month-content {
+  width: 100%;
+  display: flex;
+  padding: 2rem;
+  align-items: center;
+  color: rgb(15, 14, 14);
+  background-color: white;
+}
+
+.calendar__month-title {
+  flex-grow: 1;
+  text-align: center;
+  font-size: 1.2rem;
+  color: rgb(15, 14, 14);
+}
+
+.calendar__month-btn {
+  border: none;
+  cursor: pointer;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 10px;
+  color: rgb(15, 14, 14);
+  color: rgb(156, 6, 6);
+}
+.calendar__month-forth {
+  background-image: url("../images/arrowRight.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.calendar__month-back {
+  background-image: url("../images/arrowLeft.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+@media screen and (min-width: 678px) {
+  .calendar__month-title {
+    font-size: 1.4rem;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .calendar__month-title {
+    font-size: 1.8rem;
+  }
+}

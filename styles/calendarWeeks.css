@@ -1,0 +1,28 @@
+.calendar__weeks-content {
+  display: flex;
+  width: 100%;
+  padding-bottom: 1.5rem;
+  padding-top: 1rem;
+
+  background-color: white;
+  border-bottom: 1px solid rgb(60, 102, 192);
+}
+.calendar__week-day {
+  font-size: 1.2rem;
+  width: 14.2857%;
+  height: 2rem;
+  text-align: center;
+  color: rgb(60, 102, 192);
+}
+
+@media screen and (min-width: 678px) {
+  .calendar__week-day {
+    font-size: 1.4rem;
+  }
+}
+
+@media screen and (min-width: 1000px) {
+  .calendar__week-day {
+    font-size: 1.8rem;
+  }
+}
