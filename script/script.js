@@ -1,19 +1,91 @@
-import { MonthArray } from "./state.js";
+import { MonthArray, pickers } from "./state.js";
 import { layoutBuilder } from "./layout.js";
 
 class Calendar {
-  constructor(selector, listOfMonth, layoutBuilder, amount) {
+  constructor(selector, listOfMonth, layoutBuilder, options) {
     this.selector = selector;
     this.listOfMonth = listOfMonth;
     this.layoutBuilder = layoutBuilder;
-    this.amount = amount;
-    if (this.amount === 2) {
-      this.data = ["", ""];
-    } else {
-      this.data = [""];
-    }
-    this.index = 0;
+    this.options = options || {};
+    this._data = [""];
+
+    this._index = 0;
     this.opened = "closed";
+    this._sibling = "";
+    if (this.options.id) {
+      this.id = this.options.id;
+    } else {
+      this.id = (Math.random() * 100).toString();
+    }
+  }
+
+  set sibling(val) {
+    console.log("siblingVal", val);
+    this._sibling = val;
+  }
+
+  get sibling() {
+    return this._sibling;
+  }
+
+  set index(valu) {
+    console.log("indexVal", valu);
+    this._index = valu;
+  }
+  get index() {
+    return this._index;
+  }
+
+  formFirstArrayMonth() {
+    this.listOfMonth.changeList();
+  }
+
+  changeYearOrMonth(val) {
+    this.listOfMonth.addDate(val);
+  }
+
+  receiveMonthArray() {
+    return this.listOfMonth.monthList;
+  }
+
+  receiveYear() {
+    return this.listOfMonth.year;
+  }
+
+  receiveMonth() {
+    return this.listOfMonth.month;
+  }
+
+  get data() {
+    return this._data;
+  }
+
+  set data(val) {
+    this._data = val;
+  }
+
+  receiveSelector() {
+    return this.selector;
+  }
+
+  setLayout() {
+    this.layoutBuilder.setLayout(
+      this.selector,
+      this.listOfMonth.monthList,
+      this.data
+    );
+  }
+
+  setMonthLayout() {
+    this.layoutBuilder.setMonthLayout(
+      this.selector,
+      this.listOfMonth.year,
+      this.listOfMonth.month
+    );
+  }
+
+  setInputsLayout() {
+    this.layoutBuilder.setInputsLayout(this.selector, this.data[this.index]);
   }
 
   createCalendar() {
@@ -22,53 +94,32 @@ class Calendar {
 
     this.layoutBuilder.createMainContent(this.selector, clickMonth, clickDay);
 
-    this.listOfMonth.changeList();
-    this.layoutBuilder.setMonthLayout(
-      this.selector,
-      this.listOfMonth.year,
-      this.listOfMonth.month
-    );
-    this.layoutBuilder.setLayout(
-      this.selector,
-      this.listOfMonth.monthList,
-      this.data[0],
-      this.data[1]
-    );
+    this.formFirstArrayMonth();
+
+    this.setMonthLayout();
+    this.setLayout();
 
     const inputClick = this.handleClickInput.bind(this);
     this.layoutBuilder.setInputClicks(this.selector, inputClick);
   }
 
-  handleClickDay(el, index) {
-    const list = this.listOfMonth.monthList;
-    const newData = list[index].data;
-    if (this.data[this.index] === newData) {
-      this.data[this.index] = "";
-    } else {
-      if (this.data.length === 1) {
-        this.data[this.index] = list[index].data;
+  handleClickDay(el, ind) {
+    const list = this.receiveMonthArray();
+
+    const newData = list[ind].data;
+    console.log("104 script", this._data, newData, ind, this._index);
+    if (!this.sibling) {
+      if (this._data[0] === newData) {
+        this._data[0] = "";
       } else {
-        if (
-          (this.index === 0 && this.data[1] && newData < this.data[1]) ||
-          (this.index === 0 && !this.data[1])
-        ) {
-          this.data[this.index] = list[index].data;
-        }
-        if (
-          (this.index === 1 && this.data[0] && newData > this.data[0]) ||
-          (this.index === 1 && !this.data[0])
-        ) {
-          this.data[this.index] = list[index].data;
-        }
+        this._data[0] = newData;
       }
+      this.setLayout();
+    } else {
+      pickers.synchronyzeChoosedData(this.id, this._index, newData);
     }
 
-    const data1 = this.data[0];
-    const data2 = this.data[1];
-    layoutBuilder.setLayout(this.selector, list, data1, data2);
-
-    const data = this.data[this.index];
-    layoutBuilder.setInputsLayout(this.selector, this.index, data);
+    this.setInputsLayout();
   }
 
   handleClickMonthForth(type) {
@@ -80,51 +131,48 @@ class Calendar {
     } else {
       newDate = new Date(year, month - 1, 1);
     }
-
-    this.listOfMonth.addDate(newDate);
-
-    this.layoutBuilder.setLayout(
-      this.selector,
-      this.listOfMonth.monthList,
-      this.data[0],
-      this.data[1]
-    );
-    this.layoutBuilder.setMonthLayout(
-      this.selector,
-      this.listOfMonth.year,
-      this.listOfMonth.month
-    );
+    if (this._data.length === 1) {
+      this.changeYearOrMonth(newDate);
+      this.setLayout();
+      this.setMonthLayout();
+    } else {
+      pickers.synchronyzeMonthYearChanging(this.id, newDate);
+    }
   }
 
-  handleClickInput(el, ind) {
+  handleClickInput() {
+    const styles = ["input-btn__first-opened", "input-btn__second-opened"];
     const owner = document.querySelector(`${this.selector}`);
+    const el = document.querySelector(`${this.selector} button`);
+    console.log("click input");
     if (this.opened === "closed") {
       owner.classList.add("form-calendar__container-opened");
-      this.index = ind;
+
       this.opened = "opened";
+      el.classList.add(`${styles[0]}`);
     } else {
-      if (this.index === ind) {
-        owner.classList.remove("form-calendar__container-opened");
-        this.opened = "closed";
-      }
+      owner.classList.remove("form-calendar__container-opened");
+      el.classList.remove(`${styles[0]}`);
+      this.opened = "closed";
     }
   }
 }
 
-const calendar = new Calendar(
-  ".form-calendar__container",
-  new MonthArray(),
-  layoutBuilder,
-  2
-);
+const dataPicker = (selector, opt) => {
+  const calendar = new Calendar(selector, new MonthArray(), layoutBuilder, opt);
+  pickers.addPicker(calendar);
+  calendar.createCalendar();
+  return calendar;
+};
 
-calendar.createCalendar();
+dataPicker(".form-calendar__input-wrapper1", { id: "567ifmgb" });
+dataPicker(".form-calendar__input-wrapper2", { id: "567ifmgb" });
 
 const calendar2 = new Calendar(
-  ".form-calendar__container2",
+  ".form-calendar__input-wrapper3",
   new MonthArray(),
   layoutBuilder,
-  2
+  { id: "567ifmgb" }
 );
 
 calendar2.createCalendar();
