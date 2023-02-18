@@ -32,7 +32,9 @@
 }
 
 .form-calendar__input-wrapper1,
-.form-calendar__input-wrapper2 {
+.form-calendar__input-wrapper2,
+.form-calendar__input-wrapper3 {
+  position: relative;
   flex-grow: 1;
   display: flex;
   background-color: white;
@@ -46,6 +48,7 @@
 }
 
 .form-calendar__data {
+  /*input*/
   color: black;
   min-width: 0.1rem;
   width: 100%;
@@ -66,10 +69,7 @@
   background-size: contain;
 }
 
-.input-btn__second-opened {
-  background-image: url("../images/chevronUp.svg");
-}
-.input-btn__first-opened {
+.input-btn__opened {
   background-image: url("../images/chevronUp.svg");
 }
 

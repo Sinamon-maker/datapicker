@@ -1,7 +1,7 @@
 .calendar__month-content {
   width: 100%;
   display: flex;
-  padding: 2rem;
+  padding: 0.5rem 1rem;
   align-items: center;
   color: rgb(15, 14, 14);
   background-color: white;
@@ -10,7 +10,7 @@
 .calendar__month-title {
   flex-grow: 1;
   text-align: center;
-  font-size: 1.2rem;
+  font-size: 1em;
   color: rgb(15, 14, 14);
 }
 
@@ -34,14 +34,29 @@
   background-size: contain;
 }
 
-@media screen and (min-width: 678px) {
+@container (min-width: 250px) {
   .calendar__month-title {
-    font-size: 1.4rem;
+    font-size: 1.1em;
   }
 }
 
-@media screen and (min-width: 1000px) {
+@container (min-width: 340px) {
+  .calendar__month-content {
+    padding: 1em 1em;
+  }
   .calendar__month-title {
-    font-size: 1.8rem;
+    font-size: 1.4em;
+  }
+}
+
+@container (min-width: 678px) {
+  .calendar__month-title {
+    font-size: 1.6em;
+  }
+}
+
+@container (min-width: 1000px) {
+  .calendar__month-title {
+    font-size: 1.8em;
   }
 }

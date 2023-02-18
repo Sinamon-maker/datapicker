@@ -20,7 +20,6 @@ class Calendar {
   }
 
   set sibling(val) {
-    console.log("siblingVal", val);
     this._sibling = val;
   }
 
@@ -29,7 +28,6 @@ class Calendar {
   }
 
   set index(valu) {
-    console.log("indexVal", valu);
     this._index = valu;
   }
   get index() {
@@ -68,6 +66,13 @@ class Calendar {
     return this.selector;
   }
 
+  setMainContent() {
+    const clickMonth = this.handleClickMonthForth.bind(this);
+    const clickDay = this.handleClickDay.bind(this);
+
+    this.layoutBuilder.createMainContent(this.selector, clickMonth, clickDay);
+  }
+
   setLayout() {
     this.layoutBuilder.setLayout(
       this.selector,
@@ -89,10 +94,7 @@ class Calendar {
   }
 
   createCalendar() {
-    const clickMonth = this.handleClickMonthForth.bind(this);
-    const clickDay = this.handleClickDay.bind(this);
-
-    this.layoutBuilder.createMainContent(this.selector, clickMonth, clickDay);
+    this.setMainContent();
 
     this.formFirstArrayMonth();
 
@@ -107,7 +109,7 @@ class Calendar {
     const list = this.receiveMonthArray();
 
     const newData = list[ind].data;
-    console.log("104 script", this._data, newData, ind, this._index);
+
     if (!this.sibling) {
       if (this._data[0] === newData) {
         this._data[0] = "";
@@ -141,10 +143,9 @@ class Calendar {
   }
 
   handleClickInput() {
-    const styles = ["input-btn__first-opened", "input-btn__second-opened"];
+    const styles = ["input-btn__opened"];
     const owner = document.querySelector(`${this.selector}`);
     const el = document.querySelector(`${this.selector} button`);
-    console.log("click input");
     if (this.opened === "closed") {
       owner.classList.add("form-calendar__container-opened");
 
@@ -160,19 +161,15 @@ class Calendar {
 
 const dataPicker = (selector, opt) => {
   const calendar = new Calendar(selector, new MonthArray(), layoutBuilder, opt);
-  pickers.addPicker(calendar);
-  calendar.createCalendar();
-  return calendar;
+  try {
+    pickers.addPicker(calendar);
+    calendar.createCalendar();
+    return calendar;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 dataPicker(".form-calendar__input-wrapper1", { id: "567ifmgb" });
 dataPicker(".form-calendar__input-wrapper2", { id: "567ifmgb" });
-
-const calendar2 = new Calendar(
-  ".form-calendar__input-wrapper3",
-  new MonthArray(),
-  layoutBuilder,
-  { id: "567ifmgb" }
-);
-
-calendar2.createCalendar();
+dataPicker(".form-calendar__input-wrapper3", { id: "567ifmg" });

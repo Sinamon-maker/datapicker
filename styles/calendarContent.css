@@ -3,6 +3,7 @@
   top: 45px;
   display: flex;
   flex-wrap: wrap;
+  min-width: 200px;
   width: 100%;
   background-color: white;
   max-height: 0;
@@ -11,9 +12,10 @@
   z-index: 100;
   transition: all 0.3s ease-out;
   padding: 0.5rem;
-
+  container-type: inline-size;
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
+  font-size: 1.5rem;
 }
 
 .calendar__days-content {
@@ -56,4 +58,10 @@
 .calendar__day-btn-double-left {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+@container (min-width: 340px) {
+}
+
+@container (min-width: 400px) {
 }
