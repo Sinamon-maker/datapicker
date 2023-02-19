@@ -17,6 +17,7 @@ class Calendar {
     } else {
       this.id = (Math.random() * 100).toString();
     }
+    this.choosedBtnClass = options.choosedBtn || "calendar__day-btn-choosed";
   }
 
   set sibling(val) {
@@ -93,6 +94,53 @@ class Calendar {
     this.layoutBuilder.setInputsLayout(this.selector, this.data[this.index]);
   }
 
+  findPrevChoosedElement() {
+    const elem = document.querySelector(
+      `${this.selector} button.${this.choosedBtnClass}`
+    );
+    return elem;
+  }
+
+  addClass(el, className) {
+    this.layoutBuilder.addClass(el, className);
+  }
+
+  removeClass(el, className) {
+    this.layoutBuilder.removeClass(el, className);
+  }
+
+  findAndRemove(selector, className) {
+    this.layoutBuilder.findElemAndRemoveClass(selector, className);
+  }
+
+  openCalendar() {
+    const owner = document.querySelector(`${this.selector}`);
+
+    this.addClass(owner, "form-calendar__container-opened");
+
+    this.opened = "opened";
+  }
+
+  addClassForOpenBtn() {
+    const el = document.querySelector(`${this.selector} button`);
+
+    this.addClass(el, "input-btn__opened");
+  }
+
+  closeCalendar() {
+    const owner = document.querySelector(`${this.selector}`);
+
+    this.removeClass(owner, "form-calendar__container-opened");
+
+    this.opened = "closed";
+  }
+
+  removeClassForOpenBtn() {
+    const el = document.querySelector(`${this.selector} button`);
+
+    this.removeClass(el, "input-btn__opened");
+  }
+
   createCalendar() {
     this.setMainContent();
 
@@ -107,16 +155,20 @@ class Calendar {
 
   handleClickDay(el, ind) {
     const list = this.receiveMonthArray();
-
     const newData = list[ind].data;
 
     if (!this.sibling) {
+      this.findAndRemove(
+        `${this.selector} button.${this.choosedBtnClass}`,
+        `${this.choosedBtnClass}`
+      );
       if (this._data[0] === newData) {
         this._data[0] = "";
       } else {
         this._data[0] = newData;
+
+        this.addClass(el, `${this.choosedBtnClass}`);
       }
-      this.setLayout();
     } else {
       pickers.synchronyzeChoosedData(this.id, this._index, newData);
     }
@@ -143,18 +195,12 @@ class Calendar {
   }
 
   handleClickInput() {
-    const styles = ["input-btn__opened"];
-    const owner = document.querySelector(`${this.selector}`);
-    const el = document.querySelector(`${this.selector} button`);
     if (this.opened === "closed") {
-      owner.classList.add("form-calendar__container-opened");
-
-      this.opened = "opened";
-      el.classList.add(`${styles[0]}`);
+      this.openCalendar();
+      this.addClassForOpenBtn();
     } else {
-      owner.classList.remove("form-calendar__container-opened");
-      el.classList.remove(`${styles[0]}`);
-      this.opened = "closed";
+      this.closeCalendar();
+      this.removeClassForOpenBtn();
     }
   }
 }

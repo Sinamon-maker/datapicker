@@ -6,6 +6,40 @@ const firstDay = defaultDay;
 class LayoutBuilder {
   constructot() {}
 
+  addClass(el, className) {
+    el.classList.add(`${className}`);
+  }
+
+  removeClass(el, className) {
+    el.classList.remove(`${className}`);
+  }
+
+  findElemBySelector(selector) {
+    return document.querySelector(`${selector}`);
+  }
+
+  findElementsBySelector(selector) {
+    return document.querySelectorAll(`${selector}`);
+  }
+
+  findElemAndRemoveClass(selector, className) {
+    const removed = this.findElemBySelector(selector);
+    if (removed) {
+      this.removeClass(removed, className);
+    }
+  }
+
+  createDayBtn(element, index, handleClickDay) {
+    const btn = document.createElement("button");
+    btn.classList.add("calendar__day-btn");
+    btn.setAttribute("type", "button");
+    btn.setAttribute("name", "button-day");
+    btn.textContent = element;
+    btn.addEventListener("click", function (e) {
+      return handleClickDay(btn, index);
+    });
+    return btn;
+  }
   createMainContent(selector, clickMonth, clickDay) {
     const calendarConainer = document.querySelector(selector);
     const calendarContant = document.createElement("div");
@@ -29,17 +63,11 @@ class LayoutBuilder {
 
     calendarConainer.append(calendarContant);
   }
+
   createDaysButtons(wrapper, handleClickDay) {
     const listOfDays = new Array(5 * 7).fill(0);
     listOfDays.map((element, index) => {
-      const btn = document.createElement("button");
-      btn.classList.add("calendar__day-btn");
-      btn.setAttribute("type", "button");
-      btn.setAttribute("name", "button-day");
-      btn.textContent = element;
-      btn.addEventListener("click", function (e) {
-        return handleClickDay(element, index);
-      });
+      const btn = this.createDayBtn(element, index, handleClickDay);
       wrapper.append(btn);
     });
   }
