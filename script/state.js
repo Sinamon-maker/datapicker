@@ -63,6 +63,20 @@ class Pickers {
     this.pickers = {};
   }
 
+  get dataPickers() {
+    return this.pickers;
+  }
+
+  get arrayPickers() {
+    const keys = Object.keys(this.pickers);
+    let elems = [];
+    for (let i = 0; i < keys.length; i += 1) {
+      const elem = this.pickers[keys[i]];
+      elems.push(...elem);
+    }
+    return elems;
+  }
+
   addPicker(picker) {
     const id = picker.id;
     if (typeof this.pickers[id] === "undefined") {

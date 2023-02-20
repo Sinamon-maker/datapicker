@@ -24,6 +24,8 @@ import { layoutBuilder } from "./layout.js";
 //arrows months
 //outerClick
 //font-size change outside
+//close - add btn class remove in input, outer click: make sure if not always shown
+//add what to do with close/ope if always shown
 
 class Calendar {
   constructor(selector, listOfMonth, layoutBuilder, options) {
@@ -241,6 +243,23 @@ class Calendar {
 
 const dataPicker = (selector, opt) => {
   const calendar = new Calendar(selector, new MonthArray(), layoutBuilder, opt);
+
+  if (!Object.keys(pickers.dataPickers).length) {
+    document.addEventListener("click", (e) => {
+      const target = e.target;
+
+      pickers.arrayPickers.forEach((elem) => {
+        const classNam = elem.receiveSelector();
+        const node = document.querySelector(`${classNam}`);
+        console.log("arrPickers", classNam, node);
+        if (!node.contains(target)) {
+          console.log("className");
+          elem.closeCalendar();
+        }
+      });
+    });
+  }
+
   try {
     pickers.addPicker(calendar);
     calendar.createCalendar();
