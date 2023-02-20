@@ -90,17 +90,20 @@ class Pickers {
     const pickers = this.pickers[id];
 
     const picker = pickers[index];
-    if (picker.data[index] === newData) {
-      pickers.forEach((picker, ind) => {
-        picker.data[index] = "";
-        picker.setLayout();
-      });
+    const newArrDat = picker.data;
+    if (newArrDat[index] === newData) {
+      newArrDat[index] = "";
     } else {
-      pickers.forEach((picker, ind) => {
-        picker.data[index] = newData;
-        picker.setLayout();
-      });
+      newArrDat[index] = newData;
+
+      if (newArrDat[0] && newArrDat[1] && newArrDat[0] >= newArrDat[1]) {
+        return;
+      }
     }
+    pickers.forEach((picker, ind) => {
+      picker.data = newArrDat;
+      picker.setLayout();
+    });
   }
 
   synchronyzeMonthYearChanging(id, newDate) {
