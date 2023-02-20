@@ -1,12 +1,35 @@
 import { MonthArray, pickers } from "./state.js";
 import { layoutBuilder } from "./layout.js";
 
+// options = {
+//  id:'xxx',
+//  choosedBtn:'xxx',
+//  alwaisOpen: Boolean,
+//  input:Boolean,
+//  inputOutside: Boolean;
+//  btnInputClick: Boolean;
+// btnInputOutside:Boolean;
+// classInputOutside:"xxxx";
+// classBtnClickOutside: 'xxx';
+// additionalClassBtnOutside: 'xxx';
+
+// funcFormatData: ()=>void;
+// funcOnOpen: ()=>{};
+// funcOnClose:()=>{};
+// funcOnClickDay:()=>{}
+// fontSize:""
+// positin:""
+// }
+
+//arrows months
+//outerClick
+
 class Calendar {
   constructor(selector, listOfMonth, layoutBuilder, options) {
     this.selector = selector;
     this.listOfMonth = listOfMonth;
     this.layoutBuilder = layoutBuilder;
-    this.options = options || {};
+    this.options = { ...options } || {};
     this._data = [""];
 
     this._index = 0;
@@ -18,6 +41,12 @@ class Calendar {
       this.id = (Math.random() * 100).toString();
     }
     this.choosedBtnClass = options.choosedBtn || "calendar__day-btn-choosed";
+
+    this.formadDateFunc =
+      options.funcFormatDate ||
+      function (input, date, locale) {
+        input.value = new Intl.DateTimeFormat(locale).format(new Date(date));
+      };
   }
 
   set sibling(val) {
@@ -91,7 +120,11 @@ class Calendar {
   }
 
   setInputsLayout() {
-    this.layoutBuilder.setInputsLayout(this.selector, this.data[this.index]);
+    this.layoutBuilder.setInputsLayout(
+      this.selector,
+      this.data[this.index],
+      this.formadDateFunc
+    );
   }
 
   findPrevChoosedElement() {

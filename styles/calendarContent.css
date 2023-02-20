@@ -27,8 +27,9 @@
   border: none;
   width: 14.2857%;
   aspect-ratio: 1 / 1;
-  border-radius: 12px;
+  border-radius: 6px;
   background-color: white;
+  font-size: 0.9em;
 }
 
 .calendar__day-btn:not(:disabled, :focus):hover {
@@ -60,8 +61,16 @@
   border-bottom-right-radius: 0;
 }
 
-@container (min-width: 340px) {
+@container (min-width: 300px) {
+  .calendar__day-btn {
+    border-radius: 10px;
+    font-size: 1em;
+  }
 }
 
-@container (min-width: 400px) {
+@container (min-width: 500px) {
+  .calendar__day-btn {
+    border-radius: 12px;
+    font-size: 1.2em;
+  }
 }

@@ -164,13 +164,14 @@ class LayoutBuilder {
     titleWrapper.textContent = `${titleText}`;
   }
 
-  setInputsLayout(selector, data) {
+  setInputsLayout(selector, data, func) {
     const input = document.querySelector(`${selector} input`);
     if (!data) input.value = "";
     else {
-      input.value = new Intl.DateTimeFormat(defaultLocale).format(
-        new Date(data)
-      );
+      func(input, data, defaultLocale);
+      //  input.value = new Intl.DateTimeFormat(defaultLocale).format(
+      //    new Date(data)
+      //  );
     }
   }
 

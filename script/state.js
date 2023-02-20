@@ -21,7 +21,7 @@ export class MonthArray {
   addDate(date) {
     const year = new Date(date).getFullYear();
     const month = new Date(date).getMonth();
-    console.log(year, month);
+
     this._month = month;
     this._year = year;
 
@@ -52,9 +52,7 @@ export class MonthArray {
       arrMain[k] = { data, current };
     }
 
-    const res = [...arrBefore, ...arrMain];
-
-    this._monthList = res;
+    this._monthList = [...arrBefore, ...arrMain];
   }
 }
 
@@ -76,7 +74,7 @@ class Pickers {
       if (this.pickers[id].length === 1) {
         picker.sibling = "second";
         picker.index = 1;
-        console.log(picker.index);
+
         picker.data = ["", ""];
         this.pickers[id].push(picker);
 
