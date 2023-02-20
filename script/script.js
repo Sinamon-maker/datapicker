@@ -164,16 +164,16 @@ class Calendar {
       );
       if (this._data[0] === newData) {
         this._data[0] = "";
+        this.setInputsLayout();
       } else {
         this._data[0] = newData;
 
         this.addClass(el, `${this.choosedBtnClass}`);
+        this.setInputsLayout();
       }
     } else {
       pickers.synchronyzeChoosedData(this.id, this._index, newData);
     }
-
-    this.setInputsLayout();
   }
 
   handleClickMonthForth(type) {

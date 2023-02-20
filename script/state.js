@@ -90,19 +90,19 @@ class Pickers {
     const pickers = this.pickers[id];
 
     const picker = pickers[index];
-    const newArrDat = picker.data;
+    const newArrDat = [...picker.data];
     if (newArrDat[index] === newData) {
       newArrDat[index] = "";
     } else {
       newArrDat[index] = newData;
-
-      if (newArrDat[0] && newArrDat[1] && newArrDat[0] >= newArrDat[1]) {
-        return;
-      }
+    }
+    if (newArrDat[0] && newArrDat[1] && newArrDat[0] >= newArrDat[1]) {
+      return;
     }
     pickers.forEach((picker, ind) => {
-      picker.data = newArrDat;
+      picker.data = [...newArrDat];
       picker.setLayout();
+      picker.setInputsLayout();
     });
   }
 

@@ -165,11 +165,13 @@ class LayoutBuilder {
   }
 
   setInputsLayout(selector, data) {
-    console.log({ data });
-    if (!data) return;
     const input = document.querySelector(`${selector} input`);
-    console.log({ input });
-    input.value = new Intl.DateTimeFormat(defaultLocale).format(new Date(data));
+    if (!data) input.value = "";
+    else {
+      input.value = new Intl.DateTimeFormat(defaultLocale).format(
+        new Date(data)
+      );
+    }
   }
 
   setInputClicks(selector, handleInputClick) {
