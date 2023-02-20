@@ -23,6 +23,7 @@ import { layoutBuilder } from "./layout.js";
 
 //arrows months
 //outerClick
+//dayBtnCoosed - border-radius less when width less
 
 class Calendar {
   constructor(selector, listOfMonth, layoutBuilder, options) {
@@ -44,8 +45,8 @@ class Calendar {
 
     this.formadDateFunc =
       options.funcFormatDate ||
-      function (input, date, locale) {
-        input.value = new Intl.DateTimeFormat(locale).format(new Date(date));
+      function (date, locale) {
+        return new Intl.DateTimeFormat(locale).format(new Date(date));
       };
   }
 

@@ -168,7 +168,7 @@ class LayoutBuilder {
     const input = document.querySelector(`${selector} input`);
     if (!data) input.value = "";
     else {
-      func(input, data, defaultLocale);
+      input.value = func(data, defaultLocale);
       //  input.value = new Intl.DateTimeFormat(defaultLocale).format(
       //    new Date(data)
       //  );
