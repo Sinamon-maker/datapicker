@@ -20,7 +20,6 @@ export const createMonthArray = (
 };
 
 export const isEquelToDate = (date1, currentDate) => {
-  // console.log("23 index.js", date1, "d2:", currentDate);
   if (date1 === currentDate) {
     return true;
   }
@@ -32,10 +31,7 @@ export const isDateBetween = (date, date1, date2) => {
     new Date(date).getTime() > new Date(date1).getTime() &&
     new Date(date).getTime() < new Date(date2).getTime()
   ) {
-    console.log("beet", date, date1, date2);
     return true;
   }
   return false;
 };
-
-//new Date(date).getTime() > new Date(date1).getTime()

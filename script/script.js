@@ -23,7 +23,7 @@ import { layoutBuilder } from "./layout.js";
 
 //arrows months
 //outerClick
-//dayBtnCoosed - border-radius less when width less
+//font-size change outside
 
 class Calendar {
   constructor(selector, listOfMonth, layoutBuilder, options) {

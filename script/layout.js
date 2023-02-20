@@ -169,17 +169,13 @@ class LayoutBuilder {
     if (!data) input.value = "";
     else {
       input.value = func(data, defaultLocale);
-      //  input.value = new Intl.DateTimeFormat(defaultLocale).format(
-      //    new Date(data)
-      //  );
     }
   }
 
   setInputClicks(selector, handleInputClick) {
     const inputBtn = document.querySelector(`${selector} button`);
-    console.log({ inputBtn });
+
     inputBtn.addEventListener("click", (e) => {
-      console.log(e.target, e.currentTarget);
       handleInputClick();
     });
   }
