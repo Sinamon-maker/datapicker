@@ -36,8 +36,16 @@ class Calendar {
     this._data = [""];
 
     this._index = 0;
-    this.opened = "closed";
+
     this._sibling = "";
+    if (options.alwaisShown) {
+      this._alwaisShown = true;
+      this.opened = "opened";
+    } else {
+      this._alwaisShown = true;
+      this.opened = "closed";
+    }
+    this._alwaisShown = options.alwaisShown || false;
     if (this.options.id) {
       this.id = this.options.id;
     } else {
@@ -65,6 +73,9 @@ class Calendar {
   }
   get index() {
     return this._index;
+  }
+  get alwaisShown() {
+    return this._alwaisShown;
   }
 
   formFirstArrayMonth() {
@@ -103,7 +114,12 @@ class Calendar {
     const clickMonth = this.handleClickMonthForth.bind(this);
     const clickDay = this.handleClickDay.bind(this);
 
-    this.layoutBuilder.createMainContent(this.selector, clickMonth, clickDay);
+    this.layoutBuilder.createMainContent(
+      this.selector,
+      this._alwaisShown,
+      clickMonth,
+      clickDay
+    );
   }
 
   setLayout() {
@@ -184,9 +200,10 @@ class Calendar {
 
     this.setMonthLayout();
     this.setLayout();
-
-    const inputClick = this.handleClickInput.bind(this);
-    this.layoutBuilder.setInputClicks(this.selector, inputClick);
+    if (!this.alwaisShown) {
+      const inputClick = this.handleClickInput.bind(this);
+      this.layoutBuilder.setInputClicks(this.selector, inputClick);
+    }
   }
 
   handleClickDay(el, ind) {
@@ -252,7 +269,7 @@ const dataPicker = (selector, opt) => {
         const classNam = elem.receiveSelector();
         const node = document.querySelector(`${classNam}`);
         console.log("arrPickers", classNam, node);
-        if (!node.contains(target)) {
+        if (!node.contains(target) && !elem.alwaisShown) {
           console.log("className");
           elem.closeCalendar();
         }
@@ -271,4 +288,7 @@ const dataPicker = (selector, opt) => {
 
 dataPicker(".form-calendar__input-wrapper1", { id: "567ifmgb" });
 dataPicker(".form-calendar__input-wrapper2", { id: "567ifmgb" });
-dataPicker(".form-calendar__input-wrapper3", { id: "567ifmg" });
+dataPicker(".form-calendar__input-wrapper3", {
+  id: "567ifmg",
+  alwaisShown: true,
+});

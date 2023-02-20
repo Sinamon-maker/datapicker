@@ -40,8 +40,11 @@ class LayoutBuilder {
     });
     return btn;
   }
-  createMainContent(selector, clickMonth, clickDay) {
+  createMainContent(selector, alwaisShown, clickMonth, clickDay) {
     const calendarConainer = document.querySelector(selector);
+    if (alwaisShown) {
+      calendarConainer.classList.add("form-calendar__container-opened");
+    }
     const calendarContant = document.createElement("div");
     calendarContant.className = "calendar__content";
     const monthContent = document.createElement("div");
