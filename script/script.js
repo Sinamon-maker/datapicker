@@ -25,7 +25,6 @@ import { layoutBuilder } from "./layout.js";
 //outerClick
 //font-size change outside
 //close - add btn class remove in input, outer click: make sure if not always shown
-//add what to do with close/ope if always shown
 
 class Calendar {
   constructor(selector, listOfMonth, layoutBuilder, options) {
@@ -51,6 +50,7 @@ class Calendar {
     } else {
       this.id = (Math.random() * 100).toString();
     }
+
     this.choosedBtnClass = options.choosedBtn || "calendar__day-btn-choosed";
 
     this.formadDateFunc =
@@ -290,5 +290,5 @@ dataPicker(".form-calendar__input-wrapper1", { id: "567ifmgb" });
 dataPicker(".form-calendar__input-wrapper2", { id: "567ifmgb" });
 dataPicker(".form-calendar__input-wrapper3", {
   id: "567ifmg",
-  alwaisShown: true,
+  alwaisShown: false,
 });
