@@ -17,21 +17,24 @@
 .calendar__month-btn {
   border: none;
   cursor: pointer;
-  width: 3rem;
-  height: 3rem;
+  width: 3em;
+  height: 3em;
   border-radius: 10px;
+  background-color: transparent;
   color: rgb(15, 14, 14);
   color: rgb(156, 6, 6);
 }
 .calendar__month-forth {
   background-image: url("../images/arrowRight.svg");
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: 2em;
+  background-position: center;
 }
 .calendar__month-back {
   background-image: url("../images/arrowLeft.svg");
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: 2em;
+  background-position: center;
 }
 
 @container (min-width: 250px) {
@@ -47,11 +50,33 @@
   .calendar__month-title {
     font-size: 1.4em;
   }
+
+  .calendar__month-btn {
+    width: 3.2em;
+    height: 3.2em;
+  }
+
+  .calendar__month-forth {
+    background-size: 2.2em;
+  }
+  .calendar__month-back {
+    background-size: 2.2em;
+  }
 }
 
 @container (min-width: 678px) {
   .calendar__month-title {
     font-size: 1.6em;
+  }
+  .calendar__month-btn {
+    width: 3.4em;
+    height: 3.4em;
+  }
+  .calendar__month-forth {
+    background-size: 2.4em;
+  }
+  .calendar__month-back {
+    background-size: 2.4em;
   }
 }
 

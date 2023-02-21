@@ -21,9 +21,10 @@ import { layoutBuilder } from "./layout.js";
 // positin:""
 // }
 
-//arrows months
-//outerClick
-//font-size change outside
+//setInputsLayout - change selector by inputSelector
+//clickInput - change by btn selector (outer or inner or input itself)
+//outerClick - btn should change if it exists
+//font-size change outside, width or position
 //close - add btn class remove in input, outer click: make sure if not always shown
 
 class Calendar {
@@ -50,6 +51,12 @@ class Calendar {
     } else {
       this.id = (Math.random() * 100).toString();
     }
+    this.noInput = options.noInput || "Input"; // 'noInput'
+
+    this.iconInput = options.iconInput || "icon"; //'noIcon'
+
+    this.inputSelector = options.inputSelector;
+    this.inputClickBtnSelector = options.inputBtnSelector;
 
     this.choosedBtnClass = options.choosedBtn || "calendar__day-btn-choosed";
 
@@ -139,11 +146,13 @@ class Calendar {
   }
 
   setInputsLayout() {
-    this.layoutBuilder.setInputsLayout(
-      this.selector,
-      this.data[this.index],
-      this.formadDateFunc
-    );
+    if (this.noInput !== "noInput") {
+      this.layoutBuilder.setInputsLayout(
+        this.selector,
+        this.data[this.index],
+        this.formadDateFunc
+      );
+    }
   }
 
   findPrevChoosedElement() {
