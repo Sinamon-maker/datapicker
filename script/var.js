@@ -10,3 +10,4 @@ export const START_WEEK_DAY = {
   Sun: 0,
   Mon: 1,
 };
+export const WEEKEND = [0, 6];

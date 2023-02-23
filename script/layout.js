@@ -1,5 +1,5 @@
 import { isEquelToDate, isDateBetween } from "./utils/index.js";
-import { WEEK_DAYS, defaultDay, defaultLocale } from "./var.js";
+import { WEEK_DAYS, WEEKEND, defaultDay, defaultLocale } from "./var.js";
 
 const firstDay = defaultDay;
 
@@ -107,10 +107,36 @@ class LayoutBuilder {
     }
   }
 
+  setLayoutForBtn(dateBtn, btn, data1, data2) {
+    const currentDate = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth(),
+      new Date().getDate()
+    ).getTime();
+
+    if (isEquelToDate(dateBtn, currentDate)) {
+      btn.classList.add("calendar__day-btn-current");
+    }
+    if (isEquelToDate(dateBtn, data1) || isEquelToDate(dateBtn, data2)) {
+      btn.classList.add("calendar__day-btn-choosed");
+    }
+    if (data1 && data2) {
+      if (isDateBetween(dateBtn, data1, data2)) {
+        btn.classList.add("calendar__day-btn-between");
+      }
+      if (isEquelToDate(dateBtn, data1)) {
+        btn.classList.add("calendar__day-btn-double-left");
+      }
+      if (isEquelToDate(dateBtn, data2)) {
+        btn.classList.add("calendar__day-btn-double-right");
+      }
+    }
+  }
+
   setLayout(selector, monthList, data) {
     const data1 = data[0];
     const data2 = data[1];
-    const daysContent = document.querySelector(
+    const daysContent = this.findElemBySelector(
       `div${selector} div.calendar__content `
     );
 
@@ -127,30 +153,27 @@ class LayoutBuilder {
         btns[i].disabled = false;
       }
 
-      const currentDate = new Date(
-        new Date().getFullYear(),
-        new Date().getMonth(),
-        new Date().getDate()
-      ).getTime();
+      this.setLayoutForBtn(dateBtn, btns[i], data1, data2);
+    }
+  }
 
-      if (isEquelToDate(dateBtn, currentDate)) {
-        btns[i].classList.add("calendar__day-btn-current");
+  updateLayout(selector, monthList, data) {
+    const data1 = data[0];
+    const data2 = data[1];
+    const daysContent = this.findElemBySelector(
+      `div${selector} div.calendar__content `
+    );
+
+    const btns = daysContent.childNodes[2].childNodes;
+    for (let i = 0; i < btns.length; i += 1) {
+      const { data: dateBtn } = monthList[i];
+
+      btns[i].className = "calendar__day-btn";
+      if (btns[i].disabled) {
+        continue;
       }
 
-      if (isEquelToDate(dateBtn, data1) || isEquelToDate(dateBtn, data2)) {
-        btns[i].classList.add("calendar__day-btn-choosed");
-      }
-      if (data1 && data2) {
-        if (isDateBetween(dateBtn, data1, data2)) {
-          btns[i].classList.add("calendar__day-btn-between");
-        }
-        if (isEquelToDate(dateBtn, data1)) {
-          btns[i].classList.add("calendar__day-btn-double-left");
-        }
-        if (isEquelToDate(dateBtn, data2)) {
-          btns[i].classList.add("calendar__day-btn-double-right");
-        }
-      }
+      this.setLayoutForBtn(dateBtn, btns[i], data1, data2);
     }
   }
 
@@ -168,7 +191,7 @@ class LayoutBuilder {
   }
 
   setInputsLayout(selector, data, func) {
-    const input = document.querySelector(`${selector} input`);
+    const input = document.querySelector(`${selector}`);
     if (!data) input.value = "";
     else {
       input.value = func(data, defaultLocale);
@@ -176,7 +199,7 @@ class LayoutBuilder {
   }
 
   setInputClicks(selector, handleInputClick) {
-    const inputBtn = document.querySelector(`${selector} button`);
+    const inputBtn = document.querySelector(`${selector}`);
 
     inputBtn.addEventListener("click", (e) => {
       handleInputClick();

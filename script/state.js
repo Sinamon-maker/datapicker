@@ -113,7 +113,7 @@ class Pickers {
     }
     pickers.forEach((picker, ind) => {
       picker.data = [...newArrDat];
-      picker.setLayout();
+      picker.updateLayout();
       picker.setInputsLayout();
     });
   }

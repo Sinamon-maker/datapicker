@@ -39,10 +39,8 @@ class Calendar {
 
     this._sibling = "";
     if (options.alwaisShown) {
-      this._alwaisShown = true;
       this.opened = "opened";
     } else {
-      this._alwaisShown = true;
       this.opened = "closed";
     }
     this._alwaisShown = options.alwaisShown || false;
@@ -51,12 +49,9 @@ class Calendar {
     } else {
       this.id = (Math.random() * 100).toString();
     }
-    this.noInput = options.noInput || "Input"; // 'noInput'
+    this.noInput = options.noInput || "input"; // 'noInput',
 
     this.iconInput = options.iconInput || "icon"; //'noIcon'
-
-    this.inputSelector = options.inputSelector;
-    this.inputClickBtnSelector = options.inputBtnSelector;
 
     this.choosedBtnClass = options.choosedBtn || "calendar__day-btn-choosed";
 
@@ -137,6 +132,14 @@ class Calendar {
     );
   }
 
+  updateLayout() {
+    this.layoutBuilder.updateLayout(
+      this.selector,
+      this.listOfMonth.monthList,
+      this.data
+    );
+  }
+
   setMonthLayout() {
     this.layoutBuilder.setMonthLayout(
       this.selector,
@@ -145,12 +148,30 @@ class Calendar {
     );
   }
 
+  setInputClick() {
+    if (!this.alwaisShown) {
+      //   clickElement = findBySelector: selector ===   this.inputClickBtnSelector
+      // or find insideClickElement
+      //then pass into setInputClicks
+
+      // inputClick - selector for
+
+      const selec = `${this.selector} button`;
+
+      const inputClick = this.handleClickInput.bind(this);
+      this.layoutBuilder.setInputClicks(selec, inputClick);
+    }
+  }
+
   setInputsLayout() {
     if (this.noInput !== "noInput") {
+      const selec = `${this.selector} input`;
+
       this.layoutBuilder.setInputsLayout(
-        this.selector,
+        selec,
         this.data[this.index],
-        this.formadDateFunc
+        this.formadDateFunc,
+        this.noInput
       );
     }
   }
@@ -180,6 +201,9 @@ class Calendar {
     this.addClass(owner, "form-calendar__container-opened");
 
     this.opened = "opened";
+    if (this.addClassForOpenBtn) {
+      this.addClassForOpenBtn();
+    }
   }
 
   addClassForOpenBtn() {
@@ -194,6 +218,9 @@ class Calendar {
     this.removeClass(owner, "form-calendar__container-opened");
 
     this.opened = "closed";
+    if (this.addClassForOpenBtn) {
+      this.removeClassForOpenBtn();
+    }
   }
 
   removeClassForOpenBtn() {
@@ -209,10 +236,8 @@ class Calendar {
 
     this.setMonthLayout();
     this.setLayout();
-    if (!this.alwaisShown) {
-      const inputClick = this.handleClickInput.bind(this);
-      this.layoutBuilder.setInputClicks(this.selector, inputClick);
-    }
+
+    this.setInputClick();
   }
 
   handleClickDay(el, ind) {
@@ -259,10 +284,8 @@ class Calendar {
   handleClickInput() {
     if (this.opened === "closed") {
       this.openCalendar();
-      this.addClassForOpenBtn();
     } else {
       this.closeCalendar();
-      this.removeClassForOpenBtn();
     }
   }
 }
@@ -277,9 +300,9 @@ const dataPicker = (selector, opt) => {
       pickers.arrayPickers.forEach((elem) => {
         const classNam = elem.receiveSelector();
         const node = document.querySelector(`${classNam}`);
-        console.log("arrPickers", classNam, node);
+
         if (!node.contains(target) && !elem.alwaisShown) {
-          console.log("className");
+          console.log("click outer");
           elem.closeCalendar();
         }
       });
@@ -299,5 +322,11 @@ dataPicker(".form-calendar__input-wrapper1", { id: "567ifmgb" });
 dataPicker(".form-calendar__input-wrapper2", { id: "567ifmgb" });
 dataPicker(".form-calendar__input-wrapper3", {
   id: "567ifmg",
-  alwaisShown: false,
+  alwaisShown: true,
+});
+
+dataPicker(".form-calendar__container4", {
+  id: "560007ifmg",
+  alwaisShown: true,
+  noInput: "noInput",
 });

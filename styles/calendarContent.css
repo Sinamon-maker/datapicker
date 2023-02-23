@@ -1,6 +1,7 @@
 .calendar__content {
   position: absolute;
   top: 45px;
+  left: 0;
   display: flex;
   flex-wrap: wrap;
   min-width: 200px;
@@ -16,6 +17,11 @@
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
   font-size: 1.5rem;
+}
+
+.form-calendar__container-opened .calendar__content {
+  max-height: 100vh;
+  opacity: 1;
 }
 
 .calendar__days-content {
