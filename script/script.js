@@ -54,7 +54,7 @@ class Calendar {
     this.iconInput = options.iconInput || "icon"; //'noIcon'
 
     this.choosedBtnClass = options.choosedBtn || "calendar__day-btn-choosed";
-
+    this.styles = options.styles || {};
     this.formadDateFunc =
       options.funcFormatDate ||
       function (date, locale) {
@@ -120,7 +120,8 @@ class Calendar {
       this.selector,
       this._alwaisShown,
       clickMonth,
-      clickDay
+      clickDay,
+      this.styles
     );
   }
 
@@ -329,4 +330,8 @@ dataPicker(".form-calendar__container4", {
   id: "560007ifmg",
   alwaisShown: true,
   noInput: "noInput",
+  styles: {
+    top: "0px",
+    width: "300px",
+  },
 });

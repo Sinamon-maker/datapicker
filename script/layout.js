@@ -29,37 +29,57 @@ class LayoutBuilder {
     }
   }
 
+  createElement(tag, opts) {
+    const el = document.createElement(tag);
+    Object.assign(el, opts);
+    return el;
+  }
+
   createDayBtn(element, index, handleClickDay) {
-    const btn = document.createElement("button");
-    btn.classList.add("calendar__day-btn");
-    btn.setAttribute("type", "button");
-    btn.setAttribute("name", "button-day");
-    btn.textContent = element;
+    const btn = this.createElement("button", {
+      className: "calendar__day-btn",
+      type: "button",
+      name: "button-day",
+      textContent: element,
+    });
+
     btn.addEventListener("click", function (e) {
       return handleClickDay(btn, index);
     });
     return btn;
   }
-  createMainContent(selector, alwaisShown, clickMonth, clickDay) {
+
+  createMainContent(selector, alwaisShown, clickMonth, clickDay, styles) {
     const calendarConainer = document.querySelector(selector);
     if (alwaisShown) {
       calendarConainer.classList.add("form-calendar__container-opened");
     }
-    const calendarContant = document.createElement("div");
-    calendarContant.className = "calendar__content";
-    const monthContent = document.createElement("div");
-    monthContent.className = "calendar__month-content";
+    const calendarContant = this.createElement("div", {
+      className: "calendar__content",
+    });
+    if (Object.keys(styles).length) {
+      Object.keys(styles).forEach(
+        (it) => (calendarContant.style[it] = styles[it])
+      );
+    }
+
+    const monthContent = this.createElement("div", {
+      className: "calendar__month-content",
+    });
 
     this.createMonthContent(monthContent, clickMonth);
     calendarContant.append(monthContent);
 
-    const weeksContent = document.createElement("div");
-    weeksContent.className = "calendar__weeks-content";
+    const weeksContent = this.createElement("div", {
+      className: "calendar__weeks-content",
+    });
+
     this.createWeekContent(weeksContent);
     calendarContant.append(weeksContent);
 
-    const daysContent = document.createElement("div");
-    daysContent.className = "calendar__days-content";
+    const daysContent = this.createElement("div", {
+      className: "calendar__days-content",
+    });
 
     this.createDaysButtons(daysContent, clickDay);
     calendarContant.append(daysContent);
@@ -76,22 +96,29 @@ class LayoutBuilder {
   }
 
   createMonthContent(wrapper, clickForth) {
-    const element = document.createElement("button");
-    element.setAttribute("type", "button");
-    element.className = "calendar__month-btn calendar__month-back";
+    const element = this.createElement("button", {
+      className: "calendar__month-btn calendar__month-back",
+      type: "button",
+      ariaLabel: "previousMonth",
+    });
+
     element.addEventListener("click", () => {
       clickForth("back");
     });
     wrapper.append(element);
 
-    const title = document.createElement("span");
-    title.className = "calendar__month-title";
+    const title = this.createElement("span", {
+      className: "calendar__month-title",
+      textContent: "",
+    });
 
-    title.textContent = "";
     wrapper.append(title);
-    const btnForth = document.createElement("button");
-    btnForth.setAttribute("type", "button");
-    btnForth.className = "calendar__month-btn calendar__month-forth";
+    const btnForth = this.createElement("button", {
+      className: "calendar__month-btn calendar__month-forth",
+      type: "button",
+      ariaLabel: "nextMonth",
+    });
+
     btnForth.addEventListener("click", () => {
       clickForth("forth");
     });
@@ -100,9 +127,11 @@ class LayoutBuilder {
 
   createWeekContent(wrapper) {
     for (let i = 0; i < 7; i += 1) {
-      const element = document.createElement("span");
-      element.classList.add("calendar__week-day");
-      element.textContent = WEEK_DAYS[firstDay][i];
+      const element = this.createElement("span", {
+        className: "calendar__week-day",
+        textContent: WEEK_DAYS[firstDay][i],
+      });
+
       if (WEEKEND.includes(i)) {
         element.style.color = "red";
       }
