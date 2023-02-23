@@ -1,4 +1,4 @@
-import { isEquelToDate, isDateBetween } from "./utils/index.js";
+import { isEquelToDate, isDateBetween, isWeekend } from "./utils/index.js";
 import { WEEK_DAYS, WEEKEND, defaultDay, defaultLocale } from "./var.js";
 
 const firstDay = defaultDay;
@@ -151,6 +151,9 @@ class LayoutBuilder {
         continue;
       } else {
         btns[i].disabled = false;
+      }
+      if (isWeekend(dateBtn, WEEKEND)) {
+        btns[i].style.color = "red";
       }
 
       this.setLayoutForBtn(dateBtn, btns[i], data1, data2);
