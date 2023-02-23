@@ -103,6 +103,9 @@ class LayoutBuilder {
       const element = document.createElement("span");
       element.classList.add("calendar__week-day");
       element.textContent = WEEK_DAYS[firstDay][i];
+      if (WEEKEND.includes(i)) {
+        element.style.color = "red";
+      }
       wrapper.append(element);
     }
   }
