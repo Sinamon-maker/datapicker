@@ -133,12 +133,6 @@ class Calendar {
 
   setInputClick() {
     if (!this.alwaisShown) {
-      //   clickElement = findBySelector: selector ===   this.inputClickBtnSelector
-      // or find insideClickElement
-      //then pass into setInputClicks
-
-      // inputClick - selector for
-
       const selec = `${this.selector} button`;
 
       const inputClick = this.handleClickInput.bind(this);
