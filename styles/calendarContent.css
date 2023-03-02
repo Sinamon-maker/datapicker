@@ -1,8 +1,10 @@
 .calendar__content {
   position: absolute;
   top: 45px;
+  left: 0;
   display: flex;
   flex-wrap: wrap;
+  min-width: 200px;
   width: 100%;
   background-color: white;
   max-height: 0;
@@ -11,7 +13,15 @@
   z-index: 100;
   transition: all 0.3s ease-out;
   padding: 0.5rem;
-  border: 1px solid tomato;
+  container-type: inline-size;
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+  font-size: 1.5rem;
+}
+
+.form-calendar__container-opened .calendar__content {
+  max-height: 100vh;
+  opacity: 1;
 }
 
 .calendar__days-content {
@@ -23,8 +33,9 @@
   border: none;
   width: 14.2857%;
   aspect-ratio: 1 / 1;
-  border-radius: 12px;
+  border-radius: 6px;
   background-color: white;
+  font-size: 0.9em;
 }
 
 .calendar__day-btn:not(:disabled, :focus):hover {
@@ -54,4 +65,18 @@
 .calendar__day-btn-double-left {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+}
+
+@container (min-width: 300px) {
+  .calendar__day-btn {
+    border-radius: 10px;
+    font-size: 1em;
+  }
+}
+
+@container (min-width: 500px) {
+  .calendar__day-btn {
+    border-radius: 12px;
+    font-size: 1.2em;
+  }
 }

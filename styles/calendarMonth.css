@@ -1,47 +1,86 @@
 .calendar__month-content {
   width: 100%;
   display: flex;
-  padding: 2rem;
+  padding: 0.5rem 1rem;
   align-items: center;
   color: rgb(15, 14, 14);
-  background-color: white;
 }
 
 .calendar__month-title {
   flex-grow: 1;
   text-align: center;
-  font-size: 1.2rem;
+  font-size: 1em;
   color: rgb(15, 14, 14);
 }
 
 .calendar__month-btn {
   border: none;
   cursor: pointer;
-  width: 3rem;
-  height: 3rem;
+  width: 3em;
+  height: 3em;
   border-radius: 10px;
+  background-color: transparent;
   color: rgb(15, 14, 14);
   color: rgb(156, 6, 6);
 }
 .calendar__month-forth {
   background-image: url("../images/arrowRight.svg");
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: 2em;
+  background-position: center;
 }
 .calendar__month-back {
   background-image: url("../images/arrowLeft.svg");
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: 2em;
+  background-position: center;
 }
 
-@media screen and (min-width: 678px) {
+@container (min-width: 250px) {
   .calendar__month-title {
-    font-size: 1.4rem;
+    font-size: 1.1em;
   }
 }
 
-@media screen and (min-width: 1000px) {
+@container (min-width: 340px) {
+  .calendar__month-content {
+    padding: 1em 1em;
+  }
   .calendar__month-title {
-    font-size: 1.8rem;
+    font-size: 1.4em;
+  }
+
+  .calendar__month-btn {
+    width: 3.2em;
+    height: 3.2em;
+  }
+
+  .calendar__month-forth {
+    background-size: 2.2em;
+  }
+  .calendar__month-back {
+    background-size: 2.2em;
+  }
+}
+
+@container (min-width: 678px) {
+  .calendar__month-title {
+    font-size: 1.6em;
+  }
+  .calendar__month-btn {
+    width: 3.4em;
+    height: 3.4em;
+  }
+  .calendar__month-forth {
+    background-size: 2.4em;
+  }
+  .calendar__month-back {
+    background-size: 2.4em;
+  }
+}
+
+@container (min-width: 1000px) {
+  .calendar__month-title {
+    font-size: 1.8em;
   }
 }

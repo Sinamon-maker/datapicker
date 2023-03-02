@@ -21,7 +21,7 @@ export class MonthArray {
   addDate(date) {
     const year = new Date(date).getFullYear();
     const month = new Date(date).getMonth();
-    console.log(year, month);
+
     this._month = month;
     this._year = year;
 
@@ -30,7 +30,7 @@ export class MonthArray {
 
   changeList() {
     const weekDay = new Date(this._year, this._month, 1).getDay();
-    console.log({ weekDay });
+
     const arrBefore = new Array(weekDay - START_WEEK_DAY.Sun).fill(0);
 
     for (let i = arrBefore.length - 1; i >= 0; i -= 1) {
@@ -52,56 +52,79 @@ export class MonthArray {
       arrMain[k] = { data, current };
     }
 
-    const res = [...arrBefore, ...arrMain];
-    console.log({ res });
-    this._monthList = res;
+    this._monthList = [...arrBefore, ...arrMain];
   }
 }
 
 export const listOfMonth = new MonthArray();
 
-class DataContent {
+class Pickers {
   constructor() {
-    this._data1 = "";
-    this._data2 = "";
-    this.currentDate = new Date();
-    this.year = new Date().getFullYear();
-    this.month = new Date().getMonth();
+    this.pickers = {};
   }
 
-  get data1() {
-    return this._data1;
-  }
-  get data2() {
-    return this._data2;
-  }
-  get currentData() {
-    return this.currentData;
+  get dataPickers() {
+    return this.pickers;
   }
 
-  setDataOnClick(data) {
-    if (!this._data1 && !this._data2) {
-      this._data1 = data;
-      return;
+  get arrayPickers() {
+    const keys = Object.keys(this.pickers);
+    let elems = [];
+    for (let i = 0; i < keys.length; i += 1) {
+      const elem = this.pickers[keys[i]];
+      elems.push(...elem);
     }
-    if (this._data1 && !this._data2 && data > this._data1) {
-      this._data2 = data;
-      return;
-    }
-    if (this._data1 && !this._data2 && data <= this._data1) {
-      this._data1 = data;
-      return;
-    }
-    if (this._data1 && this._data2 && data <= this._data1) {
-      this._data1 = data;
-      return;
-    }
+    return elems;
+  }
 
-    if (this._data1 && this._data2 && data >= this._data1) {
-      this._data2 = data;
+  addPicker(picker) {
+    const id = picker.id;
+    if (typeof this.pickers[id] === "undefined") {
+      this.pickers[id] = [picker];
+    } else {
+      if (this.pickers[id].length === 2) {
+        throw new Error("More then 2 are not allowed");
+      }
+      if (this.pickers[id].length === 1) {
+        picker.sibling = "second";
+        picker.index = 1;
+
+        picker.data = ["", ""];
+        this.pickers[id].push(picker);
+
+        this.pickers[id][0].sibling = "first";
+        this.pickers[id][0].data = ["", ""];
+      }
+    }
+  }
+
+  synchronyzeChoosedData(id, index, newData) {
+    const pickers = this.pickers[id];
+
+    const picker = pickers[index];
+    const newArrDat = [...picker.data];
+    if (newArrDat[index] === newData) {
+      newArrDat[index] = "";
+    } else {
+      newArrDat[index] = newData;
+    }
+    if (newArrDat[0] && newArrDat[1] && newArrDat[0] >= newArrDat[1]) {
       return;
     }
+    pickers.forEach((picker, ind) => {
+      picker.data = [...newArrDat];
+      picker.updateLayout();
+      picker.setInputsLayout();
+    });
+  }
+
+  synchronyzeMonthYearChanging(id, newDate) {
+    const pickers = this.pickers[id];
+    pickers.forEach((picker) => {
+      picker.changeYearOrMonth(newDate);
+      picker.setLayout();
+      picker.setMonthLayout();
+    });
   }
 }
-
-export const dataContent = new DataContent();
+export const pickers = new Pickers();

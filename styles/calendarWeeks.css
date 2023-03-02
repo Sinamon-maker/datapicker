@@ -1,28 +1,41 @@
 .calendar__weeks-content {
   display: flex;
   width: 100%;
-  padding-bottom: 1.5rem;
-  padding-top: 1rem;
-
-  background-color: white;
+  padding-bottom: 0.2em;
+  padding-top: 0.2em;
   border-bottom: 1px solid rgb(60, 102, 192);
 }
 .calendar__week-day {
-  font-size: 1.2rem;
+  font-size: 1em;
   width: 14.2857%;
-  height: 2rem;
+  height: 2em;
   text-align: center;
   color: rgb(60, 102, 192);
 }
 
-@media screen and (min-width: 678px) {
+@container (min-width: 340px) {
+  .calendar__weeks-content {
+  }
   .calendar__week-day {
-    font-size: 1.4rem;
+    font-size: 1.4em;
   }
 }
 
-@media screen and (min-width: 1000px) {
+@container (min-width: 400px) {
+  .calendar__weeks-content {
+  }
   .calendar__week-day {
-    font-size: 1.8rem;
+  }
+}
+
+@container (min-width: 678px) {
+  .calendar__week-day {
+    font-size: 1.8em;
+  }
+}
+
+@container (min-width: 1000px) {
+  .calendar__week-day {
+    font-size: 1.8em;
   }
 }
