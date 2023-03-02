@@ -3,29 +3,11 @@ import { layoutBuilder } from "./layout.js";
 
 // options = {
 //  id:'xxx',
-//  choosedBtn:'xxx',
 //  alwaisOpen: Boolean,
-//  input:Boolean,
-//  inputOutside: Boolean;
-//  btnInputClick: Boolean;
-// btnInputOutside:Boolean;
-// classInputOutside:"xxxx";
-// classBtnClickOutside: 'xxx';
-// additionalClassBtnOutside: 'xxx';
-
-// funcFormatData: ()=>void;
-// funcOnOpen: ()=>{};
-// funcOnClose:()=>{};
-// funcOnClickDay:()=>{}
-// fontSize:""
-// positin:""
-// }
-
-//setInputsLayout - change selector by inputSelector
-//clickInput - change by btn selector (outer or inner or input itself)
-//outerClick - btn should change if it exists
-//font-size change outside, width or position
-//close - add btn class remove in input, outer click: make sure if not always shown
+//noInput: "input" || 'noInput',
+//choosedBtn - class for choosed btn
+//funcFormatDate - func (dada, locale)
+//styles:{}
 
 class Calendar {
   constructor(selector, listOfMonth, layoutBuilder, options) {
@@ -333,5 +315,6 @@ dataPicker(".form-calendar__container4", {
   styles: {
     top: "0px",
     width: "300px",
+    backgroundColor: "green",
   },
 });
